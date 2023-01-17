@@ -1,0 +1,15 @@
+0
+
+7
+
+14
+
+train: /content/train/images
+val: /content/train/images/val
+
+nc: 14
+names: ['biker', 'car', 'pedestrian', 'trafficLight', 'trafficLight-Green', 'trafficLight-GreenLeft', 'trafficLight-Red', 'trafficLight-RedLeft', 'trafficLight-Yellow', 'trafficLight-YellowLeft', 'truck', 'sl_20', 'sl_100', 'stop']
+
+14,730,058 
+
+2, 4,  6, 11, 12, 13

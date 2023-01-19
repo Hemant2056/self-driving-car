@@ -1,7 +1,7 @@
 import torch, json
 from datetime import datetime
 # Model
-model = torch.hub.load('ultralytics/yolov5', 'custom', path='weights/best11.pt')  # local model
+model = torch.hub.load('ultralytics/yolov5', 'custom', path='weights/traffic_sign.pt')  # local model
 #model = torch.hub.load('ultralytics/yolov5', 'yolov5n')  # local model
 
 while 1:
@@ -15,7 +15,7 @@ while 1:
 
 	#img = camera.frame()
 
-	img = 'test_images/tlg.jpg'
+	img = 'test_images/sl_20_s.png'
 
 	# Inference
 	results = model(img)
@@ -24,10 +24,11 @@ while 1:
 
 	resultsInJson = results.pandas().xyxy[0].to_json(orient="records")  # JSON img1 predictions
 	
+	print(resultsInJson)
 
 	resultsInPython = json.loads(resultsInJson);
 	for result in resultsInPython:
-		if result['name']=="stop sign":
+		if result['name']=="sl_20":
 			isStop = 1
 		print(result['name']+ " , ")
 			

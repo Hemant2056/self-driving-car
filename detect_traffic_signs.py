@@ -1,7 +1,8 @@
 import torch, json
 from datetime import datetime
 
-from colorthief import ColorThief
+from picamera2 import Picamera2
+
 
 # will convert the image to text string
 
@@ -12,18 +13,28 @@ import pytesseract  # pip install pytesseract
 # then add full path of tesseract executable to the PATH
 	# or put line like as the following one
 # pytesseract.pytesseract.tesseract_cmd = r'<full_path_to_your_tesseract_executable>'
-pytesseract.pytesseract.tesseract_cmd = r'E:\\tesseract\\tesseract.exe'
+#pytesseract.pytesseract.tesseract_cmd = r'/usr/share/tesseract-ocr/4.00/bin/tesseract'
+#none of the above mentioned steps were required for raspberry pi i.e
+# no need to add to path or define tesseract_cmd variable (for rp)
 
 
 # adds image processing capabilities
 from PIL import Image  
+
+from picamera2 import Picamera2
+
+
+picam2 = Picamera2()
+picam2.configure(picam2.create_preview_configuration(main={"format": 'XRGB8888', "size": (640, 480)}))
+picam2.start()
+
 
 # Model
 model = torch.hub.load('ultralytics/yolov5', 'custom', path='weights/traffic_sign.pt')  # local model
 #model = torch.hub.load('ultralytics/yolov5', 'yolov5n')  # local model
 
 
-def cropImage(imgPath, eachResult):
+def cropImage(originalImage, eachResult):
 	
 	#bounding box for the detected sign e.g speed limit / trafficlight
 
@@ -32,7 +43,7 @@ def cropImage(imgPath, eachResult):
 	right = eachResult['xmax']
 	bottom = eachResult['ymax']
 
-	originalImage = Image.open(imgPath)
+	#originalImage = Image.open(imgPath)
 
 			# crop the iamge so as to extract speed limit part
 			# based on bounding box
@@ -41,19 +52,16 @@ def cropImage(imgPath, eachResult):
 
 
 while 1:
-	#Image
-	#later taken from the pi camera
-	#img = 'https://images.hindustantimes.com/rf/image_size_640x362/HT/p1/2015/02/02/Incoming/Pictures/1312893_Wallpaper2.jpg'; #or each frame
+	#Image directly from rp or from dir test_images
 
-	#img = 'test_images/green_traffic_light.jpg';
-
-	#img = 'test_images/stop_sign.webp';
-
-	#img = camera.frame()
-
-	img = 'test_images/tlg.jpg'
+	img = picam2.capture_array() #directly from rpi
+	img = Image.fromarray(img)
+	#img = 'test_images/sl_20.jpg' #from test_images dir
 
 	# Inference
+	
+	
+	
 	results = model(img)
 
 	isStop = 0
@@ -77,13 +85,16 @@ while 1:
 	'''
 	
 	for result in resultsInPython:
+        
+        
+        
 		if result['name'] == 'speedlimit':
 			
 			speedLimitInText = pytesseract.image_to_string(cropImage(img, result))  
 			
 			print('speed limit detected, speed limit: ', speedLimitInText )
 
-		if result['name'] == "trafficlight":
-			print(ColorThief(cropImage(img, result)).get_color(quality=1))
+		if result['name'] == "sdf":
+			tl = 1
 			
-	break
+	

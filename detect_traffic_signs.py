@@ -30,9 +30,7 @@ picam2.start()
 
 '''
 # Model
-model = torch.hub.load('ultralytics/yolov5', 'custom', path='weights/best.pt')  # local model
-#model = torch.hub.load('ultralytics/yolov5', 'yolov5n')  # local model
-
+model = torch.hub.load('yolov5', 'custom', path='weights/yolov5.pt', source='local')  # local model
 
 def cropImage(originalImage, eachResult):
 	
@@ -54,13 +52,10 @@ def cropImage(originalImage, eachResult):
 while 1:
 	#Image directly from rp or from dir test_images
 
-	#img = picam2.capture_array() #directly from rpi
 	#img = Image.fromarray(img)
-	img = 'test_images/tlg.jpg' #from test_images dir
+	img = 'test_images/stop.webp' #from test_images dir
 	img = Image.open(img)
 	# Inference
-	
-	
 	
 	results = model(img)
 
@@ -69,6 +64,8 @@ while 1:
 	resultsInJson = results.pandas().xyxy[0].to_json(orient="records")  # JSON img1 predictions
 	
 	print(resultsInJson)
+
+
 
 	resultsInPython = json.loads(resultsInJson);
 	
@@ -86,15 +83,13 @@ while 1:
 	
 	for result in resultsInPython:
         
-        
-        
 		if result['name'] == 'speedlimit':
 			
-			speedLimitInText = pytesseract.image_to_string(cropImage(img, result))  
+			speedLimitInText = pytesseract.image_to_string(cropImage(img, result))
 			
 			print('speed limit detected, speed limit: ', speedLimitInText )
 
-		if result['name'] == "sdf":
-			tl = 1
-			
-	
+		if result['name'] == "stop":
+			print("stop sign detected")
+
+	break

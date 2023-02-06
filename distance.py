@@ -1,7 +1,7 @@
 from ultralytics import YOLO
 
-model = YOLO('yolov8n.pt')
+# Load a model
+model = YOLO("weights/best-yolov8.pt")  # load a custom model
 
-results = model('test_images/rtl.jpg')
-
-print (results)
+# Predict with the model
+results = model("https://ultralytics.com/images/bus.jpg")  # predict on an image

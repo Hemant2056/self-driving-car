@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Steering wheel</title>
+  <meta meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<style type="text/css">
+	
+	body{
+		margin: 0px;
+		overflow: hidden;
+	}
+
+	#wheelHolder{
+		position: absolute;
+		top: 50px;
+		left: 50%;
+		transform: translateX(-50%);
+	}
+
+	#stopResumeToggler{
+		position: fixed;
+		bottom: 100px;
+		left: 50%;
+		transform: translateX(-50%);
+		padding: 10px;
+		border: none;
+		font-size: 20px;
+		background: red;
+		color: white;
+		font-weight: bold;
+		border-radius: 15px;
+		width: 150px;
+	}
+
+</style>
+
+</head>
+<body>
+
+<div id="wheelHolder">
+	<img src="steering-wheel.jpg" id="wheel" class="wheel">
+</div>
+
+<button id="stopResumeToggler" onclick="car.stop()">
+	Stop
+</button>
+
+<script type="text/javascript" src="functions.js"></script>
+
+<script type="text/javascript">
+
+	const wheel = document.getElementById('wheel')
+
+	const steeringWheel = new Wheel(wheel);
+
+	const wheelHolder = document.getElementById('wheelHolder')
+
+	wheelHolder.addEventListener("touchmove", function(e){
+		steeringWheel.determineAngleToBeRotated(e.touches[0]);
+	});
+
+	const stopResumeToggler = document.getElementById('stopResumeToggler')
+
+	const car = new Car(stopResumeToggler);
+
+
+</script>
+
+</body>
+</html>

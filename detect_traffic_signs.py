@@ -1,6 +1,8 @@
 import torch, json
 from datetime import datetime
 
+from time import sleep
+
 #from picamera2 import Picamera2
 
 
@@ -30,6 +32,9 @@ picam2.start()
 
 '''
 # Model
+
+import asyncio
+
 model = torch.hub.load('yolov5', 'custom', path='weights/yolov5.pt', source='local')  # local model
 
 def cropImage(originalImage, eachResult):
@@ -48,16 +53,23 @@ def cropImage(originalImage, eachResult):
 
 	return originalImage.crop((left, top, right, bottom))
 
+def detectTrafficSigns():
 
-while 1:
-	#Image directly from rp or from dir test_images
+
+
+
+	trafficSignsDetected = 0
 
 	#img = Image.fromarray(img)
-	img = 'test_images/stop.webp' #from test_images dir
+	img = 'test_images/sl_80.webp' #from test_images dir
 	img = Image.open(img)
 	# Inference
-	
+
+
+
 	results = model(img)
+
+
 
 	isStop = 0
 
@@ -65,7 +77,7 @@ while 1:
 	
 	print(resultsInJson)
 
-
+	
 
 	resultsInPython = json.loads(resultsInJson);
 	
@@ -80,7 +92,8 @@ while 1:
 		print("stop the car: , second part of time :  ",  datetime.now().second)
 	
 	'''
-	
+
+
 	for result in resultsInPython:
         
 		if result['name'] == 'speedlimit':
@@ -91,5 +104,16 @@ while 1:
 
 		if result['name'] == "stop":
 			print("stop sign detected")
+
+
+def processLanes():
+
+	print ("hello, lanes processed")
+
+
+while 1:
+	detectTrafficSigns()
+
+	processLanes()
 
 	break

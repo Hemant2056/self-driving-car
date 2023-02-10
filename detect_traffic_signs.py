@@ -33,9 +33,9 @@ picam2.start()
 '''
 # Model
 
-import asyncio
+from datetime import datetime
 
-model = torch.hub.load('yolov5', 'custom', path='weights/yolov5.pt', source='local')  # local model
+model = torch.hub.load('yolov5', 'custom', path='weights/best.pt', source='local')  # local model
 
 def cropImage(originalImage, eachResult):
 	
@@ -61,7 +61,7 @@ def detectTrafficSigns():
 	trafficSignsDetected = 0
 
 	#img = Image.fromarray(img)
-	img = 'test_images/sl_80.webp' #from test_images dir
+	img = 'test_images/gtl.jpg' #from test_images dir
 	img = Image.open(img)
 	# Inference
 
@@ -108,7 +108,7 @@ def detectTrafficSigns():
 
 def processLanes():
 
-	print ("hello, lanes processed")
+	print ("")
 
 
 while 1:
@@ -116,4 +116,7 @@ while 1:
 
 	processLanes()
 
-	break
+	print(datetime.now().second)
+
+
+	

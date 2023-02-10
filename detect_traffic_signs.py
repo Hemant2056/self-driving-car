@@ -35,7 +35,7 @@ picam2.start()
 
 from datetime import datetime
 
-model = torch.hub.load('yolov5', 'custom', path='weights/best.pt', source='local')  # local model
+model = torch.hub.load('yolov5', 'custom', path='weights/traffic_sign.pt', source='local')  # local model
 
 def cropImage(originalImage, eachResult):
 	
@@ -61,7 +61,7 @@ def detectTrafficSigns():
 	trafficSignsDetected = 0
 
 	#img = Image.fromarray(img)
-	img = 'test_images/gtl.jpg' #from test_images dir
+	img = 'test_images/stop3.png' #from test_images dir
 	img = Image.open(img)
 	# Inference
 

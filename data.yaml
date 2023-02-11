@@ -1,5 +1,5 @@
 train: /content/train/images
 val: /content/train/images/val
 
-nc: 13
-names: ['biker', 'car', 'pedestrian', 'trafficLight', 'trafficLight-Green', 'trafficLight-GreenLeft', 'trafficLight-Red', 'trafficLight-RedLeft', 'trafficLight-Yellow', 'trafficLight-YellowLeft', 'truck', 'stop', 'speedlimit']
+nc: 7
+names: ['stop', 'car', 'pedestrian', 'speedlimit', 'trafficLight-Green', 'trafficlight', 'trafficLight-Red']

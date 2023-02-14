@@ -1,5 +1,0 @@
-train: /content/train/images
-val: /content/train/images/val
-
-nc: 7
-names: ['stop', 'car', 'pedestrian', 'speedlimit', 'trafficLight-Green', 'trafficlight', 'trafficLight-Red']

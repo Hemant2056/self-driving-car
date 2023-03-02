@@ -1,9 +1,8 @@
 import numpy as np
 import cv2
+import matplotlib.pyplot as plt
 
-def getPerspectiveTransformedLaneEdges(imageLoc):
-		# Load the image
-	img = cv2.imread(imageLoc)
+def getPerspectiveTransformedLaneEdges(img):
 
 	copiedImg = np.copy(img)
 
@@ -24,10 +23,12 @@ def getPerspectiveTransformedLaneEdges(imageLoc):
 
 	#ROI Points
 
-	topLeft = (450, 331)
-	bottomLeft = (170, imshape[0])
-	bottomRight =  (imshape[1]-60, imshape[0])
-	topRight = (525, 331)
+	offsetY = 0
+
+	topLeft = (601, 444)
+	bottomLeft = (180, imshape[0]-offsetY)
+	bottomRight =  (1160, imshape[0]-offsetY)
+	topRight = (934, topLeft[1])
 
 	ROIpoints = [topLeft, bottomLeft, bottomRight, topRight]
 
@@ -35,13 +36,11 @@ def getPerspectiveTransformedLaneEdges(imageLoc):
 	cv2.fillPoly(mask, ROI, ignore_mask_color)
 	masked_edges = cv2.bitwise_and(edges, mask)
 
-	#cv2.polylines(masked_edges, np.int32([ROIpoints]), True, (255,255,255))
+	copiedMaskedEdges = np.copy(masked_edges)
 
-	# Display the resulting image
-	#plt.imshow( masked_edges)
-	#plt.show()
+	cv2.polylines(copiedMaskedEdges, np.int32([ROIpoints]), True, (255,255,255))
 
-	# max width and height of ROI lines
+	
 
 	# Define the destination points for the bird's eye view
 	# or transformed ROI points
@@ -66,6 +65,7 @@ def getPerspectiveTransformedLaneEdges(imageLoc):
 	# Use the cv2.warpPerspective() function to apply the transformation matrix to the original image and get the bird's eye view
 	warped = cv2.warpPerspective(masked_edges, M, (img.shape[1], img.shape[0]), flags=cv2.INTER_LINEAR)
 
-	offset = 50
+	offset = 10
+#left_curverad:  1780756078028722.5  right_curverad:  2467522555118308.0
 
 	return warped[transformedTopLeft[1]:transformedBottomLeft[1], transformedTopLeft[0]-offset:transformedTopRight[0]+offset]

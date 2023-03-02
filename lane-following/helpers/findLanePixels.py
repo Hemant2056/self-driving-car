@@ -5,7 +5,6 @@ import matplotlib.pyplot as plt
 
 def find_lane_pixels(binary_warped):
 
-    global topLeft
 
     # Take a histogram of the bottom half of the image
     histogram = np.sum(binary_warped[binary_warped.shape[0]//2:,:], axis=0)

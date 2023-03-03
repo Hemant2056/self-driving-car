@@ -24,11 +24,23 @@ def getPerspectiveTransformedLaneEdges(img):
 	#ROI Points
 
 	offsetY = 0
+	#'''
+	#Roi for test video
 
 	topLeft = (601, 444)
 	bottomLeft = (180, imshape[0]-offsetY)
 	bottomRight =  (1160, imshape[0]-offsetY)
 	topRight = (934, topLeft[1])
+	
+	'''
+	#roi for lane.jpeg
+
+	topLeft = (435, 338)
+	bottomLeft = (175, imshape[0] - offsetY)
+	bottomRight =  (905, imshape[0] - offsetY)
+	topRight = (540, topLeft[1])	
+
+	'''
 
 	ROIpoints = [topLeft, bottomLeft, bottomRight, topRight]
 
@@ -38,9 +50,10 @@ def getPerspectiveTransformedLaneEdges(img):
 
 	copiedMaskedEdges = np.copy(masked_edges)
 
-	cv2.polylines(copiedMaskedEdges, np.int32([ROIpoints]), True, (255,255,255))
+#	cv2.polylines(copiedMaskedEdges, np.int32([ROIpoints]), True, (255,255,255))
 
-	
+#	cv2.imshow("copied masked edges", copiedMaskedEdges)
+#	cv2.waitKey(0)
 
 	# Define the destination points for the bird's eye view
 	# or transformed ROI points
@@ -69,3 +82,48 @@ def getPerspectiveTransformedLaneEdges(img):
 #left_curverad:  1780756078028722.5  right_curverad:  2467522555118308.0
 
 	return warped[transformedTopLeft[1]:transformedBottomLeft[1], transformedTopLeft[0]-offset:transformedTopRight[0]+offset]
+
+
+def annotateFinalImage(out_img,isOnRightLane, isOnLeftLane, isLeftLanePresent, isRightLanePresent):
+	if isOnRightLane:
+	    text = "on RL"
+	elif isOnLeftLane:
+	    text = "on LL"
+	elif isOnLeftLane & isOnRightLane:
+		text = "on midL"
+	else:
+	    text = "on N/a "
+
+	# font
+	font = cv2.FONT_HERSHEY_SIMPLEX
+	  
+	# org
+	org = (100, 70)
+	  
+	# fontScale
+	fontScale = 1
+	   
+	# Red color in BGR
+	color = (255, 255, 255)
+	  
+	# Line thickness of 2 px
+	thickness = 1
+	   
+	# Using cv2.putText() method
+	out_img = cv2.putText(out_img, text, org, font, fontScale, color, thickness, cv2.LINE_AA, False)
+	  
+	if (isLeftLanePresent & isRightLanePresent):
+	    text = "BL Prsnt"
+	elif isLeftLanePresent:
+	    text = "LL Prsnt"
+	elif isRightLanePresent:
+	    text = "RL Prsnt"
+	else:
+	    text = "NL Prsnt"
+
+	org = (100, 120)
+
+	out_img = cv2.putText(out_img, text, org, font, fontScale, 
+	                 color, thickness, cv2.LINE_AA, False)
+
+	return out_img

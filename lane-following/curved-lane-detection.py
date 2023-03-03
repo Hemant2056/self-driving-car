@@ -1,18 +1,13 @@
-from helpers.findLaneEdges import getPerspectiveTransformedLaneEdges
-from helpers.fitPolynomial import  fit_polynomial
+from helpers.findLaneEdges import getPerspectiveTransformedLaneEdges, annotateFinalImage
 from helpers.findLanePixels import find_lane_pixels
+from helpers.getLanePresence import  getLanePresence
+from helpers.detectDashedLane import detectDashedLane
 
 import cv2
-
-import matplotlib.pyplot as plt
-
-from time import sleep
-
 
 videoObj = cv2.VideoCapture('test-images/lane.mp4')
 
 success = True
-
 
 while success:
     
@@ -26,11 +21,16 @@ while success:
 
         #step 2
 
-        lanePixels , out_img = find_lane_pixels(laneEdges)
+        laneEdges = cv2.flip(laneEdges, 1)
+
+        lanePixels = find_lane_pixels(laneEdges)
 
         #step 3
+        isLeftLaneLinePresent, isRightLaneLinePresent = getLanePresence(lanePixels)
 
-        out_img = fit_polynomial(laneEdges, lanePixels, out_img)
+        isInsideLeftLane, isInsideRightLane = detectDashedLane(laneEdges, lanePixels, [isLeftLaneLinePresent, isRightLaneLinePresent])
+
+        out_img =  annotateFinalImage(laneEdges,  isInsideRightLane, isInsideLeftLane, isLeftLaneLinePresent, isRightLaneLinePresent)
         
         cv2.imshow("out_img", out_img)
         cv2.waitKey(1)

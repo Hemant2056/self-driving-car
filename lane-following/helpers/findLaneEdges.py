@@ -24,23 +24,34 @@ def getPerspectiveTransformedLaneEdges(img):
 	#ROI Points
 
 	offsetY = 0
-	#'''
-	#Roi for test video
-
+	
+	#Roi for test video lane.mp4
+	'''
 	topLeft = (601, 444)
 	bottomLeft = (180, imshape[0]-offsetY)
 	bottomRight =  (1160, imshape[0]-offsetY)
 	topRight = (934, topLeft[1])
 	
+	#roi for lane2.mp4
+		
+	topLeft = (240, 249)
+	bottomLeft = (129, imshape[0] - offsetY)
+	bottomRight =  (442, imshape[0] - offsetY)
+	topRight = (369, topLeft[1])
 	'''
-	#roi for lane.jpeg
+	
+	#roi for lane3.mp4
 
-	topLeft = (435, 338)
-	bottomLeft = (175, imshape[0] - offsetY)
-	bottomRight =  (905, imshape[0] - offsetY)
-	topRight = (540, topLeft[1])	
+	topLeft = (503, 413)
+	bottomLeft = (59, imshape[0] - offsetY)
+	bottomRight =  (1042, imshape[0] - offsetY)
+	topRight = (740, topLeft[1])	
+	
+	
 
-	'''
+	
+
+
 
 	ROIpoints = [topLeft, bottomLeft, bottomRight, topRight]
 
@@ -50,10 +61,10 @@ def getPerspectiveTransformedLaneEdges(img):
 
 	copiedMaskedEdges = np.copy(masked_edges)
 
-#	cv2.polylines(copiedMaskedEdges, np.int32([ROIpoints]), True, (255,255,255))
+	cv2.polylines(copiedMaskedEdges, np.int32([ROIpoints]), True, (255,255,255))
 
-#	cv2.imshow("copied masked edges", copiedMaskedEdges)
-#	cv2.waitKey(0)
+	#cv2.imshow("copied masked edges", copiedMaskedEdges)
+	#cv2.waitKey(0)
 
 	# Define the destination points for the bird's eye view
 	# or transformed ROI points
@@ -79,18 +90,17 @@ def getPerspectiveTransformedLaneEdges(img):
 	warped = cv2.warpPerspective(masked_edges, M, (img.shape[1], img.shape[0]), flags=cv2.INTER_LINEAR)
 
 	offset = 10
-#left_curverad:  1780756078028722.5  right_curverad:  2467522555118308.0
 
 	return warped[transformedTopLeft[1]:transformedBottomLeft[1], transformedTopLeft[0]-offset:transformedTopRight[0]+offset]
 
 
 def annotateFinalImage(out_img,isOnRightLane, isOnLeftLane, isLeftLanePresent, isRightLanePresent):
-	if isOnRightLane:
-	    text = "on RL"
+	if (isOnLeftLane & isOnRightLane):
+	    text = "on midL"
 	elif isOnLeftLane:
 	    text = "on LL"
-	elif isOnLeftLane & isOnRightLane:
-		text = "on midL"
+	elif isOnRightLane:
+		text = "on RL"
 	else:
 	    text = "on N/a "
 

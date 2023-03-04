@@ -12,12 +12,11 @@ def detectDashedLane(laneEdges, lanePixels, laneLinesPresence):
 
 	righty = np.sort(righty)
 
-	noOfDarkPixelsToBeCountedAsLargeBreaks = 20 #may be required to  tune again on pi
+	noOfDarkPixelsToBeCountedAsLargeBreaks = 5 #may be required to  tune again on pi
 
 	noOfLargeBreaksInLeftLaneLine = 0
 
 	noOfLargeBreaksInRightLaneLine = 0
-
 
 	if isLeftLaneLinePresent:
 
@@ -40,10 +39,17 @@ def detectDashedLane(laneEdges, lanePixels, laneLinesPresence):
 
 	# may need to tweak '2' and '3' from lines below
 
-	if((isLeftLaneLinePresent & noOfLargeBreaksInLeftLaneLine >= 2 & noOfLargeBreaksInRightLaneLine < noOfLargeBreaksInLeftLaneLine) or ((noOfLargeBreaksInRightLaneLine < 2) & (isRightLaneLinePresent))):
+	if((noOfLargeBreaksInRightLaneLine > 1) & (noOfLargeBreaksInLeftLaneLine > 1)):
+		# means the vehicle is inside the middle lane
 		isInsideRightLane = True
-
-	if((isRightLaneLinePresent & noOfLargeBreaksInRightLaneLine >= 2 & noOfLargeBreaksInRightLaneLine > noOfLargeBreaksInLeftLaneLine) or ((noOfLargeBreaksInLeftLaneLine < 2) & (isLeftLaneLinePresent))):
-		isInsideLeftLane = True;
+		isInsideLeftLane = True
+	else:
+		if(((noOfLargeBreaksInLeftLaneLine > 1) or ((noOfLargeBreaksInRightLaneLine < 2) & (isRightLaneLinePresent))) &  (noOfLargeBreaksInRightLaneLine <= noOfLargeBreaksInLeftLaneLine)):
+			isInsideRightLane = True
+			print("inside else if")
+		else:
+			if(((noOfLargeBreaksInRightLaneLine >= 2) or ((noOfLargeBreaksInLeftLaneLine < 2) & (isLeftLaneLinePresent))) & (noOfLargeBreaksInRightLaneLine >= noOfLargeBreaksInLeftLaneLine)):
+				isInsideLeftLane = True;
+				print("inside else else")
 
 	return isInsideLeftLane, isInsideRightLane	

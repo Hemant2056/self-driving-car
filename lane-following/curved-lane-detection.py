@@ -10,7 +10,7 @@ videoObj = cv2.VideoCapture('test-images/lane.mp4')
 success = True
 
 while success:
-    
+   
     success, image = videoObj.read()
 
     if success:
@@ -21,11 +21,13 @@ while success:
 
         #step 2
 
-        laneEdges = cv2.flip(laneEdges, 1)
+        #laneEdges = cv2.flip(laneEdges, 1)
 
         lanePixels = find_lane_pixels(laneEdges)
 
         #step 3
+        leftx, lefty, rightx, righty = lanePixels
+
         isLeftLaneLinePresent, isRightLaneLinePresent = getLanePresence(lanePixels)
 
         isInsideLeftLane, isInsideRightLane = detectDashedLane(laneEdges, lanePixels, [isLeftLaneLinePresent, isRightLaneLinePresent])

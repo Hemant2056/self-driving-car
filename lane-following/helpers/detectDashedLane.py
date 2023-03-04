@@ -2,7 +2,6 @@ import cv2
 
 import numpy as np
 
-from helpers.findLanePixels import retMpLbRb
 
 def detectDashedLane(laneEdges, lanePixels, laneLinesPresence):
 
@@ -10,27 +9,25 @@ def detectDashedLane(laneEdges, lanePixels, laneLinesPresence):
 
 	leftx, lefty, rightx, righty = lanePixels
 
+	lefty = np.sort(lefty)
 
-	lefty = lefty.sort()
+	righty = np.sort(righty)
 
-	righty = righty.sort()
-
-	
-	noOfDarkPixelsToBeCountedAsLargeBreaks = 30 #may be required to  tune again on pi
+	noOfDarkPixelsToBeCountedAsLargeBreaks = 20 #may be required to  tune again on pi
 
 	noOfLargeBreaksInLeftLaneLine = 0
 
 	noOfLargeBreaksInRightLaneLine = 0
 
-	if lefty is not None:
+
+	if isLeftLaneLinePresent:
 
 		for i in range(len(lefty)):
 			if(i > 0):
 				if(lefty[i] - lefty[i-1] > noOfDarkPixelsToBeCountedAsLargeBreaks):
 					noOfLargeBreaksInLeftLaneLine += 1
 
-	if righty is not None:
-
+	if isRightLaneLinePresent:
 		for i in range(len(righty)):
 			if(i > 0):
 				if(righty[i] - righty[i-1] > noOfDarkPixelsToBeCountedAsLargeBreaks):
@@ -48,4 +45,4 @@ def detectDashedLane(laneEdges, lanePixels, laneLinesPresence):
 	if((isRightLaneLinePresent & noOfLargeBreaksInRightLaneLine > 2 & noOfLargeBreaksInRightLaneLine > noOfLargeBreaksInLeftLaneLine) or (noOfLargeBreaksInLeftLaneLine < 3 & isLeftLaneLinePresent)):
 		isInsideLeftLane = True;
 
-	return isInsideLeftLane, isInsideRightLane
+	return isInsideLeftLane, isInsideRightLane	

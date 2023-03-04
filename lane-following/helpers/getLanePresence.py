@@ -1,8 +1,6 @@
 import numpy as np
 import cv2
 
-
-
 def getLanePresence(lanePixels):
 
     isLeftLanePresent = True

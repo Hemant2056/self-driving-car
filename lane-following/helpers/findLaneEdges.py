@@ -26,19 +26,19 @@ def getPerspectiveTransformedLaneEdges(img):
 	offsetY = 0
 	
 	#Roi for test video lane.mp4
-	'''
+
 	topLeft = (601, 444)
 	bottomLeft = (180, imshape[0]-offsetY)
 	bottomRight =  (1160, imshape[0]-offsetY)
 	topRight = (934, topLeft[1])
-	
+	'''
 	#roi for lane2.mp4
 		
 	topLeft = (240, 249)
 	bottomLeft = (129, imshape[0] - offsetY)
 	bottomRight =  (442, imshape[0] - offsetY)
 	topRight = (369, topLeft[1])
-	'''
+	
 	
 	#roi for lane3.mp4
 
@@ -46,10 +46,8 @@ def getPerspectiveTransformedLaneEdges(img):
 	bottomLeft = (59, imshape[0] - offsetY)
 	bottomRight =  (1042, imshape[0] - offsetY)
 	topRight = (740, topLeft[1])	
-	
-	
+	'''
 
-	
 
 
 
@@ -61,7 +59,7 @@ def getPerspectiveTransformedLaneEdges(img):
 
 	copiedMaskedEdges = np.copy(masked_edges)
 
-	cv2.polylines(copiedMaskedEdges, np.int32([ROIpoints]), True, (255,255,255))
+	#cv2.polylines(copiedMaskedEdges, np.int32([ROIpoints]), True, (255,255,255))
 
 	#cv2.imshow("copied masked edges", copiedMaskedEdges)
 	#cv2.waitKey(0)
@@ -96,13 +94,13 @@ def getPerspectiveTransformedLaneEdges(img):
 
 def annotateFinalImage(out_img,isOnRightLane, isOnLeftLane, isLeftLanePresent, isRightLanePresent):
 	if (isOnLeftLane & isOnRightLane):
-	    text = "on midL"
+	    text = "inside mid Lane"
 	elif isOnLeftLane:
-	    text = "on LL"
+	    text = "inside lt. lane"
 	elif isOnRightLane:
-		text = "on RL"
+		text = "inside rt. lane"
 	else:
-	    text = "on N/a "
+	    text = "inside N/a "
 
 	# font
 	font = cv2.FONT_HERSHEY_SIMPLEX
@@ -111,7 +109,7 @@ def annotateFinalImage(out_img,isOnRightLane, isOnLeftLane, isLeftLanePresent, i
 	org = (100, 70)
 	  
 	# fontScale
-	fontScale = 1
+	fontScale = 0.4
 	   
 	# Red color in BGR
 	color = (255, 255, 255)
@@ -123,13 +121,13 @@ def annotateFinalImage(out_img,isOnRightLane, isOnLeftLane, isLeftLanePresent, i
 	out_img = cv2.putText(out_img, text, org, font, fontScale, color, thickness, cv2.LINE_AA, False)
 	  
 	if (isLeftLanePresent & isRightLanePresent):
-	    text = "BL Prsnt"
+	    text = "Both lanes Prsnt"
 	elif isLeftLanePresent:
-	    text = "LL Prsnt"
+	    text = "Lt. lane only Prsnt"
 	elif isRightLanePresent:
-	    text = "RL Prsnt"
+	    text = "Rt. lane only Prsnt"
 	else:
-	    text = "NL Prsnt"
+	    text = "No lane Prsnt"
 
 	org = (100, 120)
 

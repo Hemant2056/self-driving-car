@@ -8,11 +8,14 @@ def getLanePresence(lanePixels):
     
     leftx, lefty, rightx, righty = lanePixels
 
-    if (leftx.size < 500):
+    minPointsRequiredToFormLane = 300
+
+    if (leftx.size < minPointsRequiredToFormLane):
     
+
         isLeftLanePresent = False
     
-    if(rightx.size < 500):
+    if(rightx.size < minPointsRequiredToFormLane):
     
         isRightLanePresent = False
 

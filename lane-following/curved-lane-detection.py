@@ -3,11 +3,10 @@ from helpers.findLanePixels import find_lane_pixels
 from helpers.getLanePresence import  getLanePresence
 from helpers.detectDashedLane import detectDashedLane
 
-import cv2
+import cv2, time
 import matplotlib.pyplot as plt
 
-
-videoObj = cv2.VideoCapture('test-images/lane3.mp4')
+videoObj = cv2.VideoCapture('test-images/lane.mp4')
 
 success = True
 
@@ -31,7 +30,7 @@ while success:
         lanePixels = find_lane_pixels(laneEdges)
 
         #step 3
-
+     
         isLeftLaneLinePresent, isRightLaneLinePresent = getLanePresence(lanePixels)
 
         isInsideLeftLane, isInsideRightLane = detectDashedLane(laneEdges, lanePixels, [isLeftLaneLinePresent, isRightLaneLinePresent])
@@ -40,3 +39,4 @@ while success:
         
         cv2.imshow("out_img", out_img)
         cv2.waitKey(1)
+        time.sleep(0.1)

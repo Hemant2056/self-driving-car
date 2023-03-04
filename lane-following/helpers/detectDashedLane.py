@@ -2,7 +2,6 @@ import cv2
 
 import numpy as np
 
-
 def detectDashedLane(laneEdges, lanePixels, laneLinesPresence):
 
 	isLeftLaneLinePresent, isRightLaneLinePresent = laneLinesPresence
@@ -37,12 +36,14 @@ def detectDashedLane(laneEdges, lanePixels, laneLinesPresence):
 
 	isInsideRightLane = False
 
+	print("NBL: ", noOfLargeBreaksInLeftLaneLine, ", NBR: ", noOfLargeBreaksInRightLaneLine)
+
 	# may need to tweak '2' and '3' from lines below
 
-	if((isLeftLaneLinePresent & noOfLargeBreaksInLeftLaneLine > 2 & noOfLargeBreaksInRightLaneLine < noOfLargeBreaksInLeftLaneLine) or (noOfLargeBreaksInRightLaneLine < 3 & isRightLaneLinePresent)):
+	if((isLeftLaneLinePresent & noOfLargeBreaksInLeftLaneLine >= 2 & noOfLargeBreaksInRightLaneLine < noOfLargeBreaksInLeftLaneLine) or ((noOfLargeBreaksInRightLaneLine < 2) & (isRightLaneLinePresent))):
 		isInsideRightLane = True
 
-	if((isRightLaneLinePresent & noOfLargeBreaksInRightLaneLine > 2 & noOfLargeBreaksInRightLaneLine > noOfLargeBreaksInLeftLaneLine) or (noOfLargeBreaksInLeftLaneLine < 3 & isLeftLaneLinePresent)):
+	if((isRightLaneLinePresent & noOfLargeBreaksInRightLaneLine >= 2 & noOfLargeBreaksInRightLaneLine > noOfLargeBreaksInLeftLaneLine) or ((noOfLargeBreaksInLeftLaneLine < 2) & (isLeftLaneLinePresent))):
 		isInsideLeftLane = True;
 
 	return isInsideLeftLane, isInsideRightLane	

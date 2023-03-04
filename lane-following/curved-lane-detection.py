@@ -10,7 +10,7 @@ videoObj = cv2.VideoCapture('test-images/lane.mp4')
 success = True
 
 while success:
-   
+
     success, image = videoObj.read()
 
     if success:

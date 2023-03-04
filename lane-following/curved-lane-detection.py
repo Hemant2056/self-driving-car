@@ -26,7 +26,6 @@ while success:
         lanePixels = find_lane_pixels(laneEdges)
 
         #step 3
-        leftx, lefty, rightx, righty = lanePixels
 
         isLeftLaneLinePresent, isRightLaneLinePresent = getLanePresence(lanePixels)
 

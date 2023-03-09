@@ -24,29 +24,29 @@ def getPerspectiveTransformedLaneEdges(img):
 	#ROI Points
 
 	offsetY = 0
-	
+	'''	
 	#Roi for test video lane.mp4
 
 	topLeft = (601, 444)
 	bottomLeft = (180, imshape[0]-offsetY)
 	bottomRight =  (1160, imshape[0]-offsetY)
 	topRight = (934, topLeft[1])
-	'''
+	
 	#roi for lane2.mp4
 		
 	topLeft = (240, 249)
 	bottomLeft = (129, imshape[0] - offsetY)
 	bottomRight =  (442, imshape[0] - offsetY)
 	topRight = (369, topLeft[1])
-	
-	
+
+	'''
 	#roi for lane3.mp4
 
 	topLeft = (503, 413)
 	bottomLeft = (59, imshape[0] - offsetY)
 	bottomRight =  (1042, imshape[0] - offsetY)
 	topRight = (740, topLeft[1])	
-	'''
+	
 
 
 

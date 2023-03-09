@@ -6,7 +6,7 @@ from helpers.detectDashedLane import detectDashedLane
 import cv2, time
 import matplotlib.pyplot as plt
 
-videoObj = cv2.VideoCapture('test-images/lane.mp4')
+videoObj = cv2.VideoCapture('test-images/lane3.mp4')
 
 success = True
 
@@ -25,7 +25,7 @@ while success:
 
         #step 2
 
-        laneEdges = cv2.flip(laneEdges, 1)
+        #laneEdges = cv2.flip(laneEdges, 1)
 
         lanePixels = find_lane_pixels(laneEdges)
 

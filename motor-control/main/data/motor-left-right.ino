@@ -34,18 +34,6 @@ void moveOrStop(int pwm){
 
 String msg = "";
 
-void readSerialData(){
-  msg = "" ; 
-  if (Serial.available()) {
-    delay(10);
-    while (Serial.available() > 0) {
-      msg += (char)Serial.read();
-    }
-    Serial.flush();
-    reactToSerialMsg();
-  }
-}
-
 void reactToSerialMsg(){
   if(msg == "f" or msg == "f\n"){
     moveOrStop(forwardPwm);
@@ -64,4 +52,18 @@ void reactToSerialMsg(){
     Serial.println("stop");
   }
 }
+
+
+void readSerialData(){
+  msg = "" ; 
+  if (Serial.available()) {
+    delay(10);
+    while (Serial.available() > 0) {
+      msg += (char)Serial.read();
+    }
+    Serial.flush();
+    reactToSerialMsg();
+  }
+}
+
 

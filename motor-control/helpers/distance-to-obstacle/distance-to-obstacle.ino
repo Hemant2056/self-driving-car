@@ -16,7 +16,9 @@ float calculateDistance(int trigPin, int echoPin){
   digitalWrite(trigPin, LOW);
 
   duration = pulseIn(echoPin, HIGH);
-
+  Serial.print("distance: ");
+  Serial.print((duration * .0343)/2);
+  Serial.println();
 
   return (duration * .0343)/2;
   
